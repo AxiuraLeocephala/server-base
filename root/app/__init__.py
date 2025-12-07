@@ -1,0 +1,1 @@
+from root.app.app import init_app
