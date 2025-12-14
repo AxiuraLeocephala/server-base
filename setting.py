@@ -13,4 +13,5 @@ def get_config():
 
 config = get_config()
 
-SERVER_CONFIG = config["server"]
+SERVER_CONFIG: Dict = config["server"]
+DATABASE_CONFIG_MYSQL: Dict = config["database_mysql"]

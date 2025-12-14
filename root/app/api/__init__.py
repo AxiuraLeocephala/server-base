@@ -1,0 +1,1 @@
+from root.app.api.router import routes_table
