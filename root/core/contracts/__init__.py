@@ -1,1 +1,0 @@
-from root.core.contracts.participant_repository import ParticipantRepository
