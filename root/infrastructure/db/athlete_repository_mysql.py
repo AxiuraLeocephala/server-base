@@ -1,6 +1,6 @@
 from typing import Union
 
-from root.application.interfaces.athlete_repository import AthleteRepository
+from root.application.interfaces import AthleteRepository
 from root.infrastructure.db.mysql import MySQL
 from root.domain.entities import Athlete, Competition, AgeGroup, Exercise
 
