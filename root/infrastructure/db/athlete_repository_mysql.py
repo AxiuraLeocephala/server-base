@@ -2,7 +2,7 @@ from typing import Union
 
 from root.application.interfaces import AthleteRepository
 from root.infrastructure.db.mysql import MySQL
-from root.domain.entities import Athlete, Competition, AgeGroup, Exercise
+from root.domain.entities import Athlete, AgeGroup, Competition, Team 
 
 class MySQLAthleteRepository(AthleteRepository):
     def __init__(self, mysql: MySQL):
@@ -35,6 +35,12 @@ class MySQLAthleteRepository(AthleteRepository):
             "(competition_id, athlete_id, age_group_id) " \
             "VALUES (%d, %d, %d)",
             (competition.id, athlete.id, age_group.id)
+        )
+
+    async def add_to_team(self, team: Team, athlete: Athlete) -> None:
+        await self.__mysql.execute(
+            "UPDATE athletes SET team_id=%d WHERE ID=%d",
+            (team.id, athlete.id)
         )
 
     async def perform_exercise(self, athlete, exercise, competition, raw_result):

@@ -1,7 +1,7 @@
 from typing import Union
 
 from root.application.interfaces import TeamRepository
-from root.domain.entities import Team
+from root.domain.entities import Athlete, Competition, Exercise, Team
 from root.infrastructure.db.mysql import MySQL
 
 class MySQLTeamRepository(TeamRepository):
@@ -23,3 +23,28 @@ class MySQLTeamRepository(TeamRepository):
             organization=team_data["organization"]
             
         )
+
+    async def add_member(self, team: Team, athlete: Athlete) -> None:
+        await self.__mysql.execute(
+            "UPDATE athletes SET team_id=%d WHERE ID=%d",
+            (team.id, athlete.id)
+        )
+
+    async def perform_exercise(
+            self, 
+            team: Team, exercise: Exercise, competition: Competition, 
+            raw_result: str
+        ) -> None:
+        await self.__mysql.execute(
+            "INSERT INTO team_performances "
+            "(team_id, exercise_id, competition_id, raw_result) " \
+            "VALUE (%d, %d, %d, %s)",
+            (team.id, exercise.id, competition.id, raw_result)
+        )
+
+    async def save(self, team: Team) -> None:
+        await self.__mysql.execute(
+            "UPDATE teams SET name=%s, region=%s, organization=%s WHERE ID=%d",
+            (team.name, team.region, team.organization, team.id)
+        )
+        
