@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union, Dict, Tuple
 
-class DB_Interface(ABC):
+class DBInterface(ABC):
     @abstractmethod
     async def execute(
         self, 

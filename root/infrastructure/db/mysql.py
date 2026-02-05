@@ -6,9 +6,9 @@ from mysql.connector.pooling import PooledMySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from mysql.connector.errors import PoolError
 
-from root.infrastructure.db.interface import DB_Interface
+from root.application.interfaces import DBInterface
 
-class MySQL(DB_Interface):
+class MySQL(DBInterface):
     __instance: "MySQL" = None
     __is_exist: bool = False
 
