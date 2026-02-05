@@ -1,11 +1,6 @@
-from root.db.mysql import MySQL
+from aiohttp import web
 
-db_config = {
-    "host": "127.0.0.1",
-    "port": 3306,
-    "database": "hackaton_2.0",
-    "user": "root",
-    "password": "root"
-}
+from root.main import start_server
 
-mysql = MySQL(db_config)
+if __name__ == "__main__":
+    start_server()
