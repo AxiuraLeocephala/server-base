@@ -5,6 +5,9 @@ from root.domain.entities import Athlete, Competition, AgeGroup, Exercise
 
 class AthleteRepository(ABC):
     @abstractmethod
+    async def create(self, athlete: Athlete) -> None: pass
+
+    @abstractmethod
     async def get_by_id(self, id: int) -> Union[Athlete, None]: pass
 
     @abstractmethod

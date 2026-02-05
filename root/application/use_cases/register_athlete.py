@@ -11,7 +11,7 @@ class RegisterAthlete:
             team: Team, first_name: str, last_name: str, 
             gender: Gender, birth_date: mDate, sport_rank: SportRank
         ):
-        user = Athlete(
+        athlete = Athlete(
             team_id=team.id,
             first_name=first_name,
             last_name=last_name,
@@ -20,6 +20,8 @@ class RegisterAthlete:
             sport_rank=sport_rank
         )
 
-        
-        
-        await self.__athlete_repository.save(user)
+        await self.__athlete_repository.create(athlete)
+        await self.__athlete_repository.register(athlete)       
+        await self.__athlete_repository.save(athlete)
+
+        return athlete

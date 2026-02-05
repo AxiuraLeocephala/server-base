@@ -8,6 +8,15 @@ class MySQLAthleteRepository(AthleteRepository):
     def __init__(self, mysql: MySQL):
         self.__mysql = mysql
 
+    async def create(self, athlete: Athlete) -> None:
+        await self.__mysql.execute(
+            "INSERT INTO athlete " \
+            "(team_id, first_name, last_name, gender, birth_date, sport_rank)" \
+            "VALUE (%d, %s, %s, %s, %s, %s)",
+            (athlete.team_id, athlete.first_name, athlete.last_name, 
+             athlete.gender, athlete.birth_date, athlete.sport_rank)
+        )
+
     async def get_by_id(self, id: int) -> Union[Athlete, None]:
         athlete_data = await self.__mysql.query(
             "SELECT * FROM athletes WHERE id=%d",

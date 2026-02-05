@@ -8,6 +8,14 @@ class MySQLTeamRepository(TeamRepository):
     def __init__(self, mysql: MySQL):
         self.__mysql = mysql
 
+    async def create(self, team: Team) -> None:
+        await self.__mysql.execute(
+            "INSERT INTO team " \
+            "(name, region, organization) " \
+            "VALUE (%s, %s, %s)",
+            (team.name, team.region, team.organization)
+        )
+
     async def get_by_id(self, id: int) -> Union[Team, None]:
         team_data = await self.__mysql.query(
             "SELECT * FROM teams WHERE ID=%d",
