@@ -21,7 +21,6 @@ class RegisterAthlete:
         )
 
         await self.__athlete_repository.create(athlete)
-        await self.__athlete_repository.register(athlete)       
-        await self.__athlete_repository.save(athlete)
+        await self.__athlete_repository.register(athlete)
 
         return athlete

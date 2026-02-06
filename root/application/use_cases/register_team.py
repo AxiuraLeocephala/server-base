@@ -5,6 +5,7 @@ class RegisterTeam:
     def __init__(self, team_repository: TeamRepository):
         self.__team_repository = team_repository
 
+    
     async def execute(self, name: str, region: str, organization: str):
         team = Team(
             name=name,

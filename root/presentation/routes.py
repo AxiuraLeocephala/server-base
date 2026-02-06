@@ -6,8 +6,8 @@ routes = web.RouteTableDef()
 
 @routes.post('/register_team')
 async def register_team(request: web.Request) -> web.Response:
-    register_team_handler(request)
+    return await register_team_handler(request)
 
 @routes.post("/register_athlete")
 async def register_athlete(request: web.Request) -> web.Response:
-    register_athlete_handler(request)
+    return await register_athlete_handler(request)

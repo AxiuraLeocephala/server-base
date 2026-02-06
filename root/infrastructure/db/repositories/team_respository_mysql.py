@@ -9,12 +9,15 @@ class MySQLTeamRepository(TeamRepository):
         self.__mysql = mysql
 
     async def create(self, team: Team) -> None:
-        await self.__mysql.execute(
+        team_id = await self.__mysql.execute(
             "INSERT INTO team " \
             "(name, region, organization) " \
-            "VALUE (%s, %s, %s)",
+            "VALUE (%s, %s, %s);"
+            "SELECT SCOPE_IDENTITY();",
             (team.name, team.region, team.organization)
         )
+
+        team.id = team_id
 
     async def get_by_id(self, id: int) -> Union[Team, None]:
         team_data = await self.__mysql.query(
