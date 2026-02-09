@@ -1,18 +1,19 @@
-from aiohttp import web
+import logging
 
-from root.application.use_cases import RegisterTeamWithMembers
+from aiohttp import web
 
 async def register_team_handler(request: web.Request) -> web.Response:
     data = await request.json()
-    register_team = RegisterTeamWithMembers()
-    register_team.execute(
-        name=data["team"]["name"],
-        region=data["team"]["region"],
-        organization=data["team"]["organization"]
-    )
-    return web.Response(text="sucsessful", status=200)
-
-async def register_athlete_handler(request: web.Request) -> web.Response:
-    data = await request.json()
-    print(data)
+    di_container = request.app["di_container"]
+    use_case = di_container.register_team_use_case()
+    try:
+        use_case.execute(
+            name=data["team"]["name"],
+            region=data["team"]["region"],
+            organization=data["team"]["organization"],
+            members=data["team"]["members"]
+        )
+    except Exception as e:
+        logging.error(f"Failed to register team: {e}")
+        return web.Response(text="Failed to register team", status=400)
     return web.Response(text="sucsessful", status=200)

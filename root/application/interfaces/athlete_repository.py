@@ -19,7 +19,8 @@ class AthleteRepository(ABC):
     @abstractmethod
     async def perform_exercise(
         self,
-        athlete: Athlete, exercise: Exercise, competition: Competition, raw_result: str
+        athlete: Athlete, exercise: Exercise, competition: Competition, 
+        raw_result: str
     ) -> None: pass
 
     @abstractmethod
