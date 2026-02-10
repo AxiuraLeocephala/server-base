@@ -12,7 +12,7 @@ class RegisterTeamWithMembers:
             name=name,
             region=region,
             organization=organization,
-        ) 
+        )
 
         await self.__team_repository.create(team)
 

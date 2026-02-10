@@ -12,13 +12,12 @@ class MySQLTeamRepository(TeamRepository):
         team_id = await self.__mysql.execute(
             "INSERT INTO teams " \
             "(name, region, organization) " \
-            "VALUE (%s, %s, %s);"
-            "SELECT SCOPE_IDENTITY();",
+            "VALUE (%s, %s, %s);",
             (team.name, team.region, team.organization)
         )
 
         team.id = team_id
-
+        
     async def get_by_id(self, id: int) -> Union[Team, None]:
         team_data = await self.__mysql.query(
             "SELECT * FROM teams WHERE ID=%d",

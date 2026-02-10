@@ -6,7 +6,7 @@ class DBInterface(ABC):
     async def execute(
         self, 
         sql: str, params: Union[Tuple, Dict] = None
-    ) -> None: pass
+    ) -> Union[int, None]: pass
 
     @abstractmethod
     async def query(

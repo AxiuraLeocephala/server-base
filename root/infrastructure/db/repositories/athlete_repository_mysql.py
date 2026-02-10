@@ -10,9 +10,9 @@ class MySQLAthleteRepository(AthleteRepository):
 
     async def create(self, athlete: Athlete) -> None:
         await self.__mysql.execute(
-            "INSERT INTO athlete " \
+            "INSERT INTO athletes " \
             "(team_id, first_name, last_name, gender, birth_date, sport_rank)" \
-            "VALUE (%d, %s, %s, %s, %s, %s)",
+            "VALUE (%s, %s, %s, %s, %s, %s)",
             (athlete.team_id, athlete.first_name, athlete.last_name, 
              athlete.gender, athlete.birth_date, athlete.sport_rank)
         )
@@ -52,7 +52,7 @@ class MySQLAthleteRepository(AthleteRepository):
             (team.id, athlete.id)
         )
 
-    async def perform_exercise(self, athlete, exercise, competition, raw_result):
+    async def perform_exercise(self, athlete: Athlete, exercise, competition, raw_result):
         await self.__mysql.execute(
             "INSERT INTO performances " \
             "(athlete_id, exercise_id, competition_id, raw_result) " \
