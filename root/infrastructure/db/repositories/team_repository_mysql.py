@@ -10,7 +10,7 @@ class MySQLTeamRepository(TeamRepository):
 
     async def create(self, team: Team) -> None:
         team_id = await self.__mysql.execute(
-            "INSERT INTO team " \
+            "INSERT INTO teams " \
             "(name, region, organization) " \
             "VALUE (%s, %s, %s);"
             "SELECT SCOPE_IDENTITY();",
@@ -33,12 +33,6 @@ class MySQLTeamRepository(TeamRepository):
             region=team_data["region"],
             organization=team_data["organization"]
             
-        )
-
-    async def add_member(self, team: Team, athlete: Athlete) -> None:
-        await self.__mysql.execute(
-            "UPDATE athletes SET team_id=%d WHERE ID=%d",
-            (team.id, athlete.id)
         )
 
     async def perform_exercise(

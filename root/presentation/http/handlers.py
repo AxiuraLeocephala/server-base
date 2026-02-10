@@ -7,7 +7,7 @@ async def register_team_handler(request: web.Request) -> web.Response:
     di_container = request.app["di_container"]
     use_case = di_container.register_team_use_case()
     try:
-        use_case.execute(
+        await use_case.execute(
             name=data["team"]["name"],
             region=data["team"]["region"],
             organization=data["team"]["organization"],

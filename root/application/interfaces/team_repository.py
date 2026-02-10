@@ -11,9 +11,6 @@ class TeamRepository(ABC):
     async def get_by_id(self, id: int) -> Union[Team, None]: pass
 
     @abstractmethod
-    async def add_member(self, team: Team, athlete: Athlete) -> None: pass
-
-    @abstractmethod
     async def perform_exercise(
         self,
         team: Team, exercise: Exercise, competition: Competition, raw_result: str

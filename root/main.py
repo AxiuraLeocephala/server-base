@@ -10,7 +10,10 @@ async def on_startup(app):
         "port": 3306,
         "user": "root",
         "password": "root",
-        "database": "hackaton_2.0"
+        "database": "hackaton_2.0",
+        "pool_size": 5,
+        "pool_name": None,
+        "pool_reset_session": True
     })
     app["di_container"] = di_container
 

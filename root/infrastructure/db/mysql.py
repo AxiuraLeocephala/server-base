@@ -31,8 +31,7 @@ class MySQL(DBInterface):
             cursor = cnx.cursor()
             return cnx, cursor
         except PoolError as pool_error:
-            logging.error(pool_error)
-            raise
+            raise pool_error
 
     async def execute(self, sql: str, params = None) -> None:
         cnx, cursor = self.__get_connection()
@@ -40,8 +39,7 @@ class MySQL(DBInterface):
             cursor.execute(operation=sql, params=params)
             cnx.commit()
         except mysql_connector.Error as mysql_error:
-            logging.error(mysql_error)
-            raise
+            raise mysql_error
         finally:
             cursor.close()
             cnx.close()
@@ -51,8 +49,7 @@ class MySQL(DBInterface):
         try:
             cursor.execute(operation=sql, params=params)
         except mysql_connector.Error as mysql_error:
-            logging.error(mysql_error)
-            raise
+            raise mysql_error
         finally:
             cursor.close()
             cnx.close()
