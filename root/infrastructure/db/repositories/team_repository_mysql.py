@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 
 from root.application.interfaces import TeamRepository
 from root.domain.entities import Athlete, Competition, Exercise, Team
@@ -18,21 +18,32 @@ class MySQLTeamRepository(TeamRepository):
 
         team.id = team_id
         
+    async def get_all(self) -> Union[List[Team], None]:
+        teams_data = await self.__mysql.query(
+            "SELECT * FROM teams"
+        )
+
+        return [
+            Team(
+                id=team_data["ID"],
+                name=team_data["name"],
+                region=team_data["region"],
+                organization=team_data["organization"]
+            ) for team_data in teams_data
+        ] if teams_data else None
+    
     async def get_by_id(self, id: int) -> Union[Team, None]:
         team_data = await self.__mysql.query(
             "SELECT * FROM teams WHERE ID=%d",
             (id,)
         )
 
-        if not team_data: return None
-
         return Team(
             id=team_data["ID"],
             name=team_data["name"],
             region=team_data["region"],
             organization=team_data["organization"]
-            
-        )
+        ) if team_data else None
 
     async def perform_exercise(
             self, 

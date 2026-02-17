@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, List
 
 from root.domain.entities import Athlete, Competition, AgeGroup, Exercise
 
@@ -9,6 +9,9 @@ class AthleteRepository(ABC):
 
     @abstractmethod
     async def get_by_id(self, id: int) -> Union[Athlete, None]: pass
+
+    @abstractmethod
+    async def get_by_team_id(self, team_id: int) -> Union[List[Athlete], None]: pass
 
     @abstractmethod
     async def register(

@@ -1,4 +1,4 @@
-from root.application.use_cases import RegisterTeamWithMembers
+from root.application.use_cases import RegisterTeamWithMembers, GetTeam
 from root.infrastructure.db.repositories import MySQLAthleteRepository, MySQLTeamRepository
 from root.infrastructure.db.mysql import MySQL
 
@@ -17,4 +17,10 @@ class DIContainer:
         return RegisterTeamWithMembers(
             athlete_repository=self.__athlete_repository,
             team_repository=self.__team_repository
+        )
+    
+    def get_team_use_case(self) -> GetTeam:
+        return GetTeam(
+            team_repository=self.__team_repository,
+            athlete_repository=self.__athlete_repository
         )

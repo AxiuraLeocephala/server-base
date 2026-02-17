@@ -1,4 +1,3 @@
-import logging
 from typing import Dict, List, Union, Tuple
 
 import mysql.connector as mysql_connector
@@ -33,11 +32,11 @@ class MySQL(DBInterface):
                 raise connection_error
 
     def __get_connection(self) -> Tuple[PooledMySQLConnection, MySQLCursor]:
-        # TODO: сделать круговую очередь или алгоритм планирования, 
+        # TODO: сделать круговую очередь или алгоритм планирования,
         # чтобы не возникала ошибка PoolError
         try:
             cnx = self.__cnx_pool.get_connection()
-            cursor = cnx.cursor()
+            cursor = cnx.cursor(dictionary=True)
             return cnx, cursor
         except mysql_connector.errors.PoolError as pool_error:
             raise pool_error

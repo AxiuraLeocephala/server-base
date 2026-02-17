@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 
 from root.application.interfaces import AthleteRepository
 from root.infrastructure.db.mysql import MySQL
@@ -23,8 +23,6 @@ class MySQLAthleteRepository(AthleteRepository):
             (id,)
         )
 
-        if not athlete_data: return None
-
         return Athlete(
             id=athlete_data['id'],
             team_id=athlete_data['team_id'],
@@ -33,7 +31,25 @@ class MySQLAthleteRepository(AthleteRepository):
             gender=athlete_data['gender'],
             birth_date=athlete_data['birth_date'],
             sport_rank=athlete_data['sport_rank']
+        ) if athlete_data else None
+    
+    async def get_by_team_id(self, team_id) -> Union[List[Athlete], None]:
+        athletes_data = await self.__mysql.query(
+            "SELECT * FROM athletes WHERE team_id=%s",
+            (team_id,)
         )
+
+        return [
+            Athlete(
+                id=athlete_data["ID"],
+                team_id=athlete_data["team_id"],
+                first_name=athlete_data["first_name"],
+                last_name=athlete_data["last_name"],
+                gender=athlete_data["gender"],
+                birth_date=athlete_data["birth_date"],
+                sport_rank=athlete_data["sport_rank"]
+            ) for athlete_data in athletes_data
+        ] if athletes_data else None
     
     async def register(
             self, 
@@ -52,7 +68,7 @@ class MySQLAthleteRepository(AthleteRepository):
             (team.id, athlete.id)
         )
 
-    async def perform_exercise(self, athlete: Athlete, exercise, competition, raw_result):
+    async def perform_exercise(self, athlete: Athlete, exercise, competition, raw_result) -> None:
         await self.__mysql.execute(
             "INSERT INTO performances " \
             "(athlete_id, exercise_id, competition_id, raw_result) " \
