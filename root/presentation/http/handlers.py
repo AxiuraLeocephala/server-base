@@ -6,6 +6,30 @@ from aiohttp.web_response import json_response
 
 from root.presentation.utils import CustomJSONEncoder
 
+async def create_competition_handler(request: web.Request) -> web.Response:
+    data = await request.json()
+    di_container = request.app["di_container"]
+    create_competition = di_container.create_competition_use_case()
+
+    try:
+        await create_competition.execute(
+            name=data["competition"]["name"],
+            start_date_time=data["competition"]["start_date_time"],
+            end_date_time=data["competition"]["end_date_time"],
+            location=data["competition"]["location"],
+            organizer=data["competition"]["organizer"]
+        )
+    except Exception as e:
+        logging.exception(f"failed to create competition: {e}")
+        return json_response(
+            data={
+                "message": "failed to register team"
+            },
+            status=400
+        )
+
+    return web.Response(status=200)
+
 async def register_team_handler(request: web.Request) -> web.Response:
     data = await request.json()
     di_container = request.app["di_container"]
@@ -20,7 +44,7 @@ async def register_team_handler(request: web.Request) -> web.Response:
         )
     except Exception as e:
         logging.exception(f"failed to register team{e}")
-        return web.Response(
+        return json_response(
             body={
                 "message": "failed to register team"
             }, 
@@ -40,11 +64,11 @@ async def get_team_handler(request: web.Request) -> web.Response:
             teams[i] = json.dumps(team, cls=CustomJSONEncoder, ensure_ascii=False)
     except Exception as e:
         logging.exception(f"failed to get team: {e}")
-        return web.Response(
+        return json_response(
             body={
-                "message": "failed to get team", 
+                "message": "failed to get team"
             },
             status=400
         )
 
-    return json_response({"teams": teams}, status=200)
+    return json_response(data={"teams": teams}, status=200)

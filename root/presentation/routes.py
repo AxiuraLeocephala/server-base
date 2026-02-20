@@ -1,8 +1,12 @@
 from aiohttp import web
 
-from root.presentation.http.handlers import register_team_handler, get_team_handler
+from root.presentation.http.handlers import *
 
 routes = web.RouteTableDef()
+
+@routes.post('/create_competition')
+async def create_competition(request: web.Request) -> web.Response:
+    return await create_competition_handler(request)
 
 @routes.post('/register_team')
 async def register_team(request: web.Request) -> web.Response:

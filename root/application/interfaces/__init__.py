@@ -1,3 +1,4 @@
 from root.application.interfaces.athlete_repository import AthleteRepository
+from root.application.interfaces.competition_repository import CompetitionRepository
 from root.application.interfaces.db_interface import DBInterface
 from root.application.interfaces.team_repository import TeamRepository
