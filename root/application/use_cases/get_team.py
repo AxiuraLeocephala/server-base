@@ -18,7 +18,7 @@ class GetTeam:
             for team in teams:
                 team.members = await self.__athlete_repository.get_by_team_id(team.id)
 
-            return json.dumps(teams)
+            return teams
         elif isinstance(id, int):
             team = await self.__team_repository.get_by_id(id)
 
@@ -26,7 +26,7 @@ class GetTeam:
             
             team.members = await self.__athlete_repository.get_by_team_id(team.id)
             
-            return json.dumps(team)
+            return team
         else:
             teams = []
 
@@ -36,4 +36,4 @@ class GetTeam:
                 team.members = await self.__athlete_repository.get_by_team_id(team.id)
                 teams.append(team)
 
-            return json.dumps(teams)
+            return teams

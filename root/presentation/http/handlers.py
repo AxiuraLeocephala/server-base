@@ -1,7 +1,10 @@
 import logging
+import json
 
 from aiohttp import web
 from aiohttp.web_response import json_response
+
+from root.presentation.utils import CustomJSONEncoder
 
 async def register_team_handler(request: web.Request) -> web.Response:
     data = await request.json()
@@ -33,6 +36,8 @@ async def get_team_handler(request: web.Request) -> web.Response:
 
     try:
         teams = await get_team.execute(id=data["id"])
+        for i, team in enumerate(teams):
+            teams[i] = json.dumps(team, cls=CustomJSONEncoder, ensure_ascii=False)
     except Exception as e:
         logging.exception(f"failed to get team: {e}")
         return web.Response(
@@ -41,8 +46,5 @@ async def get_team_handler(request: web.Request) -> web.Response:
             },
             status=400
         )
-    
-    print(teams)
-    
-    # return json_response({"data": teams}, status=200)
-    return web.Response(status=200)
+
+    return json_response({"teams": teams}, status=200)
