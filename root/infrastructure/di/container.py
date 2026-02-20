@@ -1,3 +1,5 @@
+from typing import Dict
+
 from root.application.use_cases import RegisterTeamWithMembers, GetTeam
 from root.infrastructure.db.repositories import MySQLAthleteRepository, MySQLTeamRepository
 from root.infrastructure.db.mysql import MySQL
@@ -8,7 +10,7 @@ class DIContainer:
         self.__athlete_repository = None
         self.__team_repository = None
 
-    def init_resources(self, db_config) -> None:
+    def init_resources(self, db_config: Dict) -> None:
         self.__mysql = MySQL(db_config)
         self.__athlete_repository = MySQLAthleteRepository(self.__mysql)
         self.__team_repository = MySQLTeamRepository(self.__mysql)
