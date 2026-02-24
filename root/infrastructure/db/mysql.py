@@ -8,7 +8,7 @@ from mysql.connector.cursor import MySQLCursor
 from root.application.interfaces import DBInterface
 
 class MySQL(DBInterface):
-    __instance: "MySQL" = None
+    __instance: "MySQL"
     __is_exist: bool = False
 
     def __new__(cls, *args, **kwargs):
@@ -25,9 +25,9 @@ class MySQL(DBInterface):
             self.__cnx_pool = mysql_connector.pooling.MySQLConnectionPool(**db_config)
         except mysql_connector.Error as connection_error:
             if connection_error.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                raise "Something is wrong with your user name or password"
+                raise Exception("Something is wrong with your user name or password")
             elif connection_error.errno == errorcode.ER_BAD_DB_ERROR:
-                raise "Database does not exist"
+                raise Exception("Database does not exist")
             else:
                 raise connection_error
 
@@ -41,7 +41,7 @@ class MySQL(DBInterface):
         except mysql_connector.errors.PoolError as pool_error:
             raise pool_error
 
-    async def execute(self, sql: str, params: Union[Tuple, Dict] = None) -> Union[int, None]:
+    async def execute(self, sql: str, params: Union[Tuple, Dict, None] = None) -> Union[int, None]:
         cnx, cursor = self.__get_connection()
         try:
             cursor.execute(operation=sql, params=params)
@@ -53,7 +53,7 @@ class MySQL(DBInterface):
             cursor.close()
             cnx.close()
 
-    async def query(self, sql: str, params: Union[Tuple, Dict] = None) -> Union[Tuple, List, None]:
+    async def query(self, sql: str, params: Union[Tuple, Dict, None] = None) -> List:
         cnx, cursor = self.__get_connection()
         try:
             cursor.execute(operation=sql, params=params)

@@ -6,10 +6,10 @@ from root.infrastructure.db.mysql import MySQL
 
 class DIContainer:
     def __init__(self):
-        self.__mysql = None
-        self.__competition_repository = None
-        self.__athlete_repository = None
-        self.__team_repository = None
+        self.__mysql: MySQL
+        self.__competition_repository: MySQLCompetitionRepository
+        self.__athlete_repository: MySQLAthleteRepository
+        self.__team_repository: MySQLTeamRepository
 
     def init_resources(self, db_config: Dict) -> None:
         self.__mysql = MySQL(db_config)
@@ -19,6 +19,11 @@ class DIContainer:
 
     def create_competition_use_case(self) -> CreateCompetition:
         return CreateCompetition(
+            competition_repository=self.__competition_repository
+        )
+    
+    def get_competitons_use_case(self) -> GetCompetitions:
+        return GetCompetitions(
             competition_repository=self.__competition_repository
         )
 
