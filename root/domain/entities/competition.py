@@ -1,11 +1,11 @@
 from typing import Union
 
-from root.domain.value_objects import mDateTime, CompetitionStatus
+from root.domain.value_objects import MySQLDateTime, CompetitionStatus
 
 class Competition:
     def __init__(
             self, 
-            name: str, start_date_time: mDateTime, end_date_time: mDateTime,
+            name: str, start_date_time: MySQLDateTime, end_date_time: MySQLDateTime,
             location: str, organizer: str, id: Union[int, None] = None, 
             status: Union[CompetitionStatus, None] = None 
             ):

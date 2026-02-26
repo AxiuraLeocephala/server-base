@@ -8,7 +8,7 @@ from mysql.connector.cursor import MySQLCursor
 from root.application.interfaces import DBInterface
 
 class MySQL(DBInterface):
-    __instance: "MySQL"
+    __instance: Union["MySQL", None] = None
     __is_exist: bool = False
 
     def __new__(cls, *args, **kwargs):

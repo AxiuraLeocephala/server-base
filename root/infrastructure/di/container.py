@@ -22,7 +22,7 @@ class DIContainer:
             competition_repository=self.__competition_repository
         )
     
-    def get_competitons_use_case(self) -> GetCompetitions:
+    def get_competitions_use_case(self) -> GetCompetitions:
         return GetCompetitions(
             competition_repository=self.__competition_repository
         )

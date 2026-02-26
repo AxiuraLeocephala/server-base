@@ -1,6 +1,6 @@
 from root.application.interfaces import CompetitionRepository
 from root.domain.entities import Competition
-from root.domain.value_objects import mDateTime
+from root.domain.value_objects import MySQLDateTime
 
 class CreateCompetition:
     def __init__(self, competition_repository: CompetitionRepository):
@@ -8,7 +8,7 @@ class CreateCompetition:
 
     async def execute(
             self, 
-            name: str, start_date_time: mDateTime, end_date_time: mDateTime,
+            name: str, start_date_time: MySQLDateTime, end_date_time: MySQLDateTime,
             location: str, organizer: str
     ) -> None: 
         competition = Competition(

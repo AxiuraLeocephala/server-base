@@ -30,8 +30,8 @@ async def create_competition_handler(request: web.Request) -> web.Response:
             status=400
         )
 
-async def get_competition_hanler(request: web.Request) -> web.Response:
-    data = await request.json()
+async def get_competitions_handler(request: web.Request) -> web.Response:
+    # data = await request.json()
     di_container = request.app["di_container"]
     get_competitions = di_container.get_competitions_use_case()
 
@@ -42,6 +42,7 @@ async def get_competition_hanler(request: web.Request) -> web.Response:
             for i, competition in enumerate(competitions):
                 competition[i] = json.dumps(competitions, cls=CustomJSONEncoder, ensure_ascii=False)
 
+        # return json_response(status=200)
         return json_response(data={"competitions": competitions}, status=200)
     except Exception as e:
         logging.exception(f"failed to get competitions: {e}")

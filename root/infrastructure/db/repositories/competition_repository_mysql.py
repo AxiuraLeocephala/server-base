@@ -31,7 +31,7 @@ class MySQLCompetitionRepository(CompetitionRepository):
                 name=competition_data["name"],
                 start_date_time=competition_data["start_date_time"],
                 end_date_time=competition_data["end_date_time"],
-                location=competition_data["locations"],
+                location=competition_data["location"],
                 organizer=competition_data["organizer"],
                 status=competition_data["status"]
             ) for competition_data in competitions_data

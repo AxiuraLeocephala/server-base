@@ -1,7 +1,10 @@
-from enum import Enum
+from datetime import datetime
 
-class mDate(Enum):
+class MySQLDateTime:
+    FORMAT = "%Y-%m-%d %H:%M:%S"
+
+    def __init__(self, value: str):
+        self.value = datetime.strptime(value, self.FORMAT)
+
+class MySQLDate(MySQLDateTime):
     FORMAT = "%Y-%m-%d"
-
-class mDateTime(Enum):
-    FORMAT = "%Y-%m-%d% %H:%M:%S"

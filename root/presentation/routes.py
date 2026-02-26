@@ -8,9 +8,9 @@ routes = web.RouteTableDef()
 async def create_competition(request: web.Request) -> web.Response:
     return await create_competition_handler(request)
 
-@routes.get("/get_competition")
+@routes.get("/get_competitions")
 async def get_competition(request: web.Request) -> web.Response:
-    return await get_competition_hanler(request)
+    return await get_competitions_handler(request)
 
 @routes.post('/register_team')
 async def register_team(request: web.Request) -> web.Response:
